@@ -1,5 +1,5 @@
 function App() {
-  return <div className="flex">App</div>;
+  return <div className="flex">The Simple Movie Project</div>;
 }
 
 export default App;
