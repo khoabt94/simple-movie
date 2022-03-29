@@ -1,44 +1,38 @@
-import { Fragment } from 'react';
-import 'swiper/scss';
-import MovieList from './components/Movie/MovieList';
+import { Fragment, lazy, Suspense } from "react";
+import { Route, Routes } from "react-router-dom";
+import "swiper/scss";
+import Banner from "./components/Banner/Banner";
+import Main from "./components/Layout/Main";
+import NotFoundPage from "./pages/NotFoundPage";
+import HomePage from "./pages/HomePage";
+import DetailPage from "./pages/DetailPage";
+import MoviePage from "./pages/MoviePage";
+
+// const HomePage = lazy(() => import("./pages/HomePage"));
+// const DetailPage = lazy(() => import("./pages/DetailPage"));
+// const MoviePage = lazy(() => import("./pages/MoviePage"));
 
 function App() {
   return (
     <Fragment>
-      <header className="flex items-center justify-center py-10 mb-5 text-white header gap-x-5">
-        <span className="text-primary">Home</span>
-        <span>Movies</span>
-      </header>
-      <section className="banner h-[500px] page-container pb-20">
-        <div className="relative w-full h-full rounded-lg">
-          <div className="absolute inset-0 rounded-lg overlay bg-gradient-to-t from-[rgba(0,0,0,0.5)] to-[rgba(0,0,0,0.5)]"></div>
-          <img
-            src="https://fandom.vn/wp-content/uploads/2019/06/mcu-team-avengers-1.jpg"
-            alt=""
-            className="object-cover w-full h-full rounded-lg"
+      {/* <Suspense fallback={<></>}> */}
+      <Routes>
+        <Route element={<Main />}>
+          <Route
+            path="/"
+            element={
+              <Fragment>
+                <Banner></Banner>
+                <HomePage></HomePage>
+              </Fragment>
+            }
           />
-          <div className="absolute w-full text-white bottom-5 left-5">
-            <h2 className="mb-3 text-3xl font-bold">Avenger: Endgame</h2>
-            <div className="flex items-center mb-8 gap-x-3">
-              <span className="px-4 py-2 border border-white rounded-md">
-                Adventure
-              </span>
-              <span className="px-4 py-2 border border-white rounded-md">
-                Action
-              </span>
-              <span className="px-4 py-2 border border-white rounded-md">
-                Scientific
-              </span>
-            </div>
-            <button className="px-6 py-3 font-medium text-white rounded-lg bg-primary">
-              Watch Now
-            </button>
-          </div>
-        </div>
-      </section>
-      <MovieList type="now_playing" label="Now Playing"></MovieList>
-      <MovieList type="top_rated" label="Top Rated"></MovieList>
-      <MovieList type="popular" label="Trending"></MovieList>
+          <Route path="/movies" element={<MoviePage></MoviePage>} />
+          <Route path="/movies/:movieId" element={<DetailPage></DetailPage>} />
+          <Route path="*" element={<NotFoundPage />}></Route>
+        </Route>
+      </Routes>
+      {/* </Suspense> */}
     </Fragment>
   );
 }
